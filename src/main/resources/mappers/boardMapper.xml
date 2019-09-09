@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sinc.board">
+	<select id="list" resultType="board">
+		SELECT SEQ, TITLE, WRITER, TO_CHAR(REGDATE,'RRRR-MM-DD') AS REGDATE, VIEWCNT
+		FROM SPRING_BOARD_TBL
+		ORDER BY 4 DESC
+	</select>
+	
+	<select id="registerBoard" parameterType="board">
+		INSERT INTO SPRING_BOARD_TBL VALUES (BOARD_SEQ.NEXTVAL, #{title}, #{content}, #{writer}, DEFAULT, DEFAULT)
+	</select>
+	
+	<select id="selectBoard" parameterType="board" resultType="board">
+		SELECT SEQ, TITLE, CONTENT, WRITER, TO_CHAR(REGDATE,'RRRR-MM-DD') AS REGDATE, VIEWCNT
+		FROM SPRING_BOARD_TBL
+		WHERE SEQ = #{seq}
+		
+	</select>
+	
+	<select id="removeBoard" parameterType="board">
+		DELETE FROM SPRING_BOARD_TBL WHERE SEQ = #{seq}		
+	</select>
+	
+	<!-- java.util.Map // java.util.HashMap // map 세가지 경우 다 되는지 확인... -->
+	<select id="searchAjax" parameterType="map" resultType="board">
+		SELECT SEQ, TITLE, WRITER, TO_CHAR(REGDATE,'RRRR-MM-DD') AS REGDATE, VIEWCNT
+		FROM SPRING_BOARD_TBL
+		<where>
+			<if test="type== 'title'">
+				TITLE LIKE '%'||#{keyword}||'%'  	
+			</if>
+			<if test="type== 'writer'">
+				WRITER LIKE '%'||#{keyword}||'%' 
+			</if>
+		</where>
+		ORDER BY 4 DESC
+		
+		<!-- 기호를 쓸때 CDATA 형태로 주기 ... WHERE SALARY <![CDATA[>]]> -->
+		
+	</select>
+	
+</mapper>  
+

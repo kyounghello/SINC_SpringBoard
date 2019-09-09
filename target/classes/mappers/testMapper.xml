@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sinc.test">
+	<select id="select" resultType="test">
+		SELECT ID, PWD, NAME
+		FROM SPRING_TEST_MEM_TBL
+	</select>
+	
+	<select id="insert" parameterType="test">
+		INSERT INTO SPRING_TEST_MEM_TBL VALUES (#{id}, #{pwd},#{name})
+	</select>
+	
+</mapper>  
+
+
+
